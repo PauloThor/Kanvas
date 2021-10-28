@@ -23,19 +23,32 @@ class ActivityView(APIView):
             activity = Activity.objects.create(title=title, points=points)
             serializer = ActivitySerializer(activity)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            output = {**serializer.data}
+            submissions = output.pop('submission_set')
+            output['submissions'] = submissions
+
+            return Response(output, status=status.HTTP_201_CREATED)
         except IntegrityError:
-            return Response({'errors': 'Activity with this title already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Activity with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
         
     
     def get(self, request):
         user = request.user
-        if not user.if_staff:
+        if not user.is_staff:
             return Response('', status=status.HTTP_403_FORBIDDEN)
 
         activities = Activity.objects.all()
         serializer = ActivitySerializer(activities, many=True) 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        output = []
+
+        for item in serializer.data:
+            obj = {**item}
+            submissions = obj.pop('submission_set')
+            obj['submissions'] = submissions
+            output.append(obj)
+
+        return Response(output, status=status.HTTP_200_OK)
 
 
 class ActivityViewById(APIView):
@@ -60,7 +73,7 @@ class ActivityViewById(APIView):
         except Activity.DoesNotExist:
             return Response({'errors': 'Invalid activity_id'}, status=status.HTTP_404_NOT_FOUND)
         except IntegrityError:
-            return Response({'errors': 'Activity with this title already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Activity with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
       
 
 
@@ -93,13 +106,14 @@ class Registration(APIView):
                     return Response({'errors': 'Only students can apply submissions'}, status=status.HTTP_403_FORBIDDEN)
             repo = request.data['repo']
             grade = request.data['grade'] if 'grade' in request.data else None
+            # grade = request.data['grade']
 
             submission = Submission.objects.filter(user_id=user.id, activity_id=activity.id).exists()
             if submission:
                 return Response({'errors': 'You can not change an Activity with submissions'}, status=status.HTTP_400_BAD_REQUEST)
-            Submission.objects.create(user_id=user.id, activity_id=activity.id, repo=repo, grade=grade)
+            submission = Submission.objects.create(user_id=user.id, activity_id=activity.id, repo=repo, grade=grade)
             
-            serializer = ActivitySerializer(activity)
+            serializer = SubmissionSerializer(submission)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Activity.DoesNotExist:

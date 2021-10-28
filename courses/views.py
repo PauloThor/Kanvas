@@ -88,7 +88,7 @@ class Registration(APIView):
             for id in user_ids:
                 user = User.objects.get(id=id)
                 if user.is_staff or user.is_superuser:
-                    return Response({'errors': 'Only students can be enrolled in the course.'})
+                    return Response({'errors': 'Only students can be enrolled in the course.'}, status=status.HTTP_400_BAD_REQUEST)
                 course.users.add(user)
             
             course.save()

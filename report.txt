@@ -39,19 +39,19 @@ test_create_and_login_for_instructor_account (test_api.TestAccountView) ... ok
 test_create_and_login_for_student_account (test_api.TestAccountView) ... ok
 test_create_two_equals_users (test_api.TestAccountView) ... ok
 test_wrong_credentials_do_not_login (test_api.TestAccountView) ... ok
-test_facilitator_or_instructor_can_create_an_activity (test_api.TestActivityView) ... FAIL
+test_facilitator_or_instructor_can_create_an_activity (test_api.TestActivityView) ... ok
 test_facilitator_or_instructor_can_edit_a_submission_grade (test_api.TestActivityView) ... ok
-test_facilitator_or_instructor_can_list_activities (test_api.TestActivityView) ... FAIL
-test_facilitator_or_instructor_can_update_an_activity (test_api.TestActivityView) ... FAIL
+test_facilitator_or_instructor_can_list_activities (test_api.TestActivityView) ... ok
+test_facilitator_or_instructor_can_update_an_activity (test_api.TestActivityView) ... ERROR
 test_facilitator_or_instructor_can_view_all_submissions (test_api.TestActivityView) ... FAIL
 test_facilitator_or_instructor_cannot_submity_an_activity (test_api.TestActivityView) ... ok
-test_if_it_is_not_possible_to_create_activities_with_the_same_title (test_api.TestActivityView) ... FAIL
+test_if_it_is_not_possible_to_create_activities_with_the_same_title (test_api.TestActivityView) ... ok
 test_if_it_is_not_possible_to_update_activity_to_an_existing_title (test_api.TestActivityView) ... ERROR
 test_if_it_is_not_possible_to_update_activity_with_an_existing_submission (test_api.TestActivityView) ... FAIL
 test_student_can_submit_an_activity (test_api.TestActivityView) ... FAIL
 test_student_can_view_only_your_submissions (test_api.TestActivityView) ... FAIL
 test_student_cannot_edit_a_submission_grade (test_api.TestActivityView) ... ok
-test_student_cannot_list_activities (test_api.TestActivityView) ... FAIL
+test_student_cannot_list_activities (test_api.TestActivityView) ... ok
 test_students_cannot_create_activities (test_api.TestActivityView) ... ok
 test_anonymous_can_filter_courses (test_api.TestCourseView) ... ok
 test_anonymous_can_list_courses (test_api.TestCourseView) ... FAIL
@@ -59,16 +59,26 @@ test_anonymous_cannot_filter_invalid_course (test_api.TestCourseView) ... ok
 test_cannot_create_courses_with_the_same_name (test_api.TestCourseView) ... ok
 test_cannot_update_course_to_an_existing_name (test_api.TestCourseView) ... ok
 test_create_course_with_invalid_token (test_api.TestCourseView) ... ok
-test_enroll_students_with_invalid_id (test_api.TestCourseView) ... FAIL
+test_enroll_students_with_invalid_id (test_api.TestCourseView) ... ok
 test_enrolls_students_with_invalid_course_id (test_api.TestCourseView) ... ok
 test_facilitator_or_student_cannot_create_course (test_api.TestCourseView) ... ok
-test_instructor_can_create_course (test_api.TestCourseView) ... FAIL
+test_instructor_can_create_course (test_api.TestCourseView) ... ok
 test_instructor_can_delete_courses (test_api.TestCourseView) ... ok
 test_instructor_can_register_students_on_course (test_api.TestCourseView) ... ok
-test_only_students_can_be_enrolled_in_the_course (test_api.TestCourseView) ... FAIL
-test_student_or_facilitator_cannot_delete_courses (test_api.TestCourseView) ... FAIL
+test_only_students_can_be_enrolled_in_the_course (test_api.TestCourseView) ... ok
+test_student_or_facilitator_cannot_delete_courses (test_api.TestCourseView) ... ok
 test_update_course_name (test_api.TestCourseView) ... ok
 test_whether_a_list_is_entered_to_enroll_students_in_the_course (test_api.TestCourseView) ... ok
+
+======================================================================
+ERROR: test_facilitator_or_instructor_can_update_an_activity (test_api.TestActivityView)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 812, in test_facilitator_or_instructor_can_update_an_activity
+    self.assertDictEqual(activity.json(), {"id": 1, "title": "activity4", "points": 8, "submissions": []})
+  File "/home/paulo/projects/q4/1-sprint/kanvas/venv/lib/python3.9/site-packages/django/test/client.py", line 662, in _parse_json
+    raise ValueError(
+ValueError: Content-Type header is "text/html; charset=utf-8", not "application/json"
 
 ======================================================================
 ERROR: test_if_it_is_not_possible_to_update_activity_to_an_existing_title (test_api.TestActivityView)
@@ -79,47 +89,6 @@ Traceback (most recent call last):
   File "/home/paulo/projects/q4/1-sprint/kanvas/venv/lib/python3.9/site-packages/django/test/client.py", line 662, in _parse_json
     raise ValueError(
 ValueError: Content-Type header is "text/html; charset=utf-8", not "application/json"
-
-======================================================================
-FAIL: test_facilitator_or_instructor_can_create_an_activity (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 767, in test_facilitator_or_instructor_can_create_an_activity
-    self.assertDictEqual(activity.json(), {"id": 1, "title": "activity1", "points": 10, "submissions": []})
-AssertionError: {'id': 1, 'title': 'activity1', 'points': 10, 'submission_set': []} != {'id': 1, 'title': 'activity1', 'points': 10, 'submissions': []}
-- {'id': 1, 'points': 10, 'submission_set': [], 'title': 'activity1'}
-?                                    - --
-
-+ {'id': 1, 'points': 10, 'submissions': [], 'title': 'activity1'}
-
-======================================================================
-FAIL: test_facilitator_or_instructor_can_list_activities (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 971, in test_facilitator_or_instructor_can_list_activities
-    self.assertListEqual(activities.json(), [{"id": 1, "title": "activity1", "points": 10, "submissions": []}])
-AssertionError: Lists differ: [{'id': 1, 'title': 'activity1', 'points': 10, 'submission_set': []}] != [{'id': 1, 'title': 'activity1', 'points': 10, 'submissions': []}]
-
-First differing element 0:
-{'id': 1, 'title': 'activity1', 'points': 10, 'submission_set': []}
-{'id': 1, 'title': 'activity1', 'points': 10, 'submissions': []}
-
-- [{'id': 1, 'points': 10, 'submission_set': [], 'title': 'activity1'}]
-?                                     - --
-
-+ [{'id': 1, 'points': 10, 'submissions': [], 'title': 'activity1'}]
-
-======================================================================
-FAIL: test_facilitator_or_instructor_can_update_an_activity (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 804, in test_facilitator_or_instructor_can_update_an_activity
-    self.assertDictEqual(activity.json(), {"id": 1, "title": "activity1", "points": 10, "submissions": []})
-AssertionError: {'id': 1, 'title': 'activity1', 'points': 10, 'submission_set': []} != {'id': 1, 'title': 'activity1', 'points': 10, 'submissions': []}
-- {'id': 1, 'points': 10, 'submission_set': [], 'title': 'activity1'}
-?                                    - --
-
-+ {'id': 1, 'points': 10, 'submissions': [], 'title': 'activity1'}
 
 ======================================================================
 FAIL: test_facilitator_or_instructor_can_view_all_submissions (test_api.TestActivityView)
@@ -136,18 +105,6 @@ First differing element 0:
 Diff is 855 characters long. Set self.maxDiff to None to see it.
 
 ======================================================================
-FAIL: test_if_it_is_not_possible_to_create_activities_with_the_same_title (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 867, in test_if_it_is_not_possible_to_create_activities_with_the_same_title
-    self.assertDictEqual(activity1.json(), {"id": 1, "title": "activity1", "points": 10, "submissions": []})
-AssertionError: {'id': 1, 'title': 'activity1', 'points': 10, 'submission_set': []} != {'id': 1, 'title': 'activity1', 'points': 10, 'submissions': []}
-- {'id': 1, 'points': 10, 'submission_set': [], 'title': 'activity1'}
-?                                    - --
-
-+ {'id': 1, 'points': 10, 'submissions': [], 'title': 'activity1'}
-
-======================================================================
 FAIL: test_if_it_is_not_possible_to_update_activity_with_an_existing_submission (test_api.TestActivityView)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -161,26 +118,17 @@ FAIL: test_student_can_submit_an_activity (test_api.TestActivityView)
 Traceback (most recent call last):
   File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 1056, in test_student_can_submit_an_activity
     self.assertDictEqual(submission.json(), {"id": 1, "grade": None, "repo": "http://gitlab.com/submission1", "user_id": 2, "activity_id": 1})
-AssertionError: {'id': 1, 'title': 'activity1', 'points': 10, 'submi[105 chars] 1}]} != {'id': 1, 'grade': None, 'repo': 'http://gitlab.com/[40 chars]': 1}
-+ {'activity_id': 1,
+AssertionError: {'id': 1, 'grade': 10, 'repo': 'http://gitlab.com/submission[30 chars]': 1} != {'id': 1, 'grade': None, 'repo': 'http://gitlab.com/submissi[32 chars]': 1}
+  {'activity_id': 1,
+-  'grade': 10,
+?           ^^
+
 +  'grade': None,
-- {'id': 1,
-? ^
+?           ^^^^
 
-+  'id': 1,
-? ^
-
--  'points': 10,
--  'submission_set': [{'activity_id': 1,
--                      'grade': 10,
--                      'id': 1,
--                      'repo': 'http://gitlab.com/submission1',
-? --------------------
-
-+  'repo': 'http://gitlab.com/submission1',
-+  'user_id': 2}
--                      'user_id': 2}],
--  'title': 'activity1'}
+   'id': 1,
+   'repo': 'http://gitlab.com/submission1',
+   'user_id': 2}
 
 ======================================================================
 FAIL: test_student_can_view_only_your_submissions (test_api.TestActivityView)
@@ -216,14 +164,6 @@ First differing element 0:
     'user_id': 2}]
 
 ======================================================================
-FAIL: test_student_cannot_list_activities (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 1024, in test_student_cannot_list_activities
-    self.assertEqual(activities.status_code, 403)
-AssertionError: 200 != 403
-
-======================================================================
 FAIL: test_anonymous_can_list_courses (test_api.TestCourseView)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
@@ -231,44 +171,8 @@ Traceback (most recent call last):
     self.assertEqual(course_list.status_code, 200)
 AssertionError: 201 != 200
 
-======================================================================
-FAIL: test_enroll_students_with_invalid_id (test_api.TestCourseView)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 617, in test_enroll_students_with_invalid_id
-    self.assertIn(response.json().get('errors'), ["invalid user_id list", "Only students can be enrolled in the course."])
-AssertionError: 'Only students can be enrolled in the course' not found in ['invalid user_id list', 'Only students can be enrolled in the course.']
+Ran 35 tests in 5.548s
 
-======================================================================
-FAIL: test_instructor_can_create_course (test_api.TestCourseView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 221, in test_instructor_can_create_course
-    self.assertEqual(course.status_code, 201)
-AssertionError: 200 != 201
-
-======================================================================
-FAIL: test_only_students_can_be_enrolled_in_the_course (test_api.TestCourseView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 533, in test_only_students_can_be_enrolled_in_the_course
-    self.assertDictEqual(response.json(), {"errors": "Only students can be enrolled in the course."})
-AssertionError: {'errors': 'Only students can be enrolled in the course'} != {'errors': 'Only students can be enrolled in the course.'}
-- {'errors': 'Only students can be enrolled in the course'}
-+ {'errors': 'Only students can be enrolled in the course.'}
-?                                                        +
-
-
-======================================================================
-FAIL: test_student_or_facilitator_cannot_delete_courses (test_api.TestCourseView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 677, in test_student_or_facilitator_cannot_delete_courses
-    self.assertEqual(delete_course.status_code, 403)
-AssertionError: 204 != 403
-
-----------------------------------------------------------------------
-Ran 35 tests in 5.350s
-
-FAILED (failures=14, errors=1)
+FAILED (failures=5, errors=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
