@@ -63,13 +63,16 @@ class ActivityViewById(APIView):
             
             if activity.submission_set.first():
                 return Response({'error': 'You can not change an Activity with submissions'}, status=status.HTTP_400_BAD_REQUEST)
-
+            
             activity.title = title
             activity.points = points
             activity.save()
             serializer = ActivitySerializer(activity)
+            output = {**serializer.data}
+            submissions = output.pop('submission_set')
+            output['submissions'] = submissions
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(output, status=status.HTTP_200_OK)
             
         except KeyError as e:
             return Response({'errors': f'{str(e)} is missing'})

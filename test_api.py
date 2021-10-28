@@ -806,11 +806,11 @@ class TestActivityView(TestCase):
         
         # Atualizando a activity 1 com o instructor
         activity = self.client.put(
-            "/api/activities/1", self.update_activity_data, format="json"
+            "/api/activities/1/", self.update_activity_data, format="json"
         )
         
         self.assertDictEqual(activity.json(), {"id": 1, "title": "activity4", "points": 8, "submissions": []})
-        self.assertEqual(activity.status_code, 201)
+        self.assertEqual(activity.status_code, 200)
         
         # Criação do facilitator
         self.client.post("/api/accounts/", self.facilitator_data, format="json")
@@ -824,11 +824,11 @@ class TestActivityView(TestCase):
         
         # Criação da activity 2 pelo facilitator
         activity = self.client.put(
-            "/api/activities/1", self.update_activity_data2, format="json"
+            "/api/activities/1/", self.update_activity_data2, format="json"
         )
         
         self.assertDictEqual(activity.json(), {"id": 1, "title": "activity1", "points": 5, "submissions": []})
-        self.assertEqual(activity.status_code, 201)
+        self.assertEqual(activity.status_code, 200)
     
     def test_students_cannot_create_activities(self):
         # Criação do student
@@ -898,7 +898,7 @@ class TestActivityView(TestCase):
         
         # Atualização da activity 2 para o mesmo titulo da activity 1
         activity = self.client.put(
-            "/api/activities/2", self.update_activity_data2, format="json"
+            "/api/activities/2/", self.update_activity_data2, format="json"
         )
         
         self.assertDictEqual(activity.json(), { 'error': 'Activity with this name already exists'})
