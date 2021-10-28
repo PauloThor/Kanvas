@@ -22,7 +22,7 @@ class CourseView(APIView):
             course = Course.objects.create(name=name)
             serializer = CourseSerializer(course)
 
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except IntegrityError:
             return Response({'error': 'Course with this name already exists'}, status=status.HTTP_400_BAD_REQUEST)
         except KeyError as e:
@@ -36,6 +36,9 @@ class CourseView(APIView):
 
 
 class CourseViewById(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [Instructor]
+
     def put(self, request, course_id):
         try:
             course = Course.objects.get(id=course_id)
@@ -85,7 +88,7 @@ class Registration(APIView):
             for id in user_ids:
                 user = User.objects.get(id=id)
                 if user.is_staff or user.is_superuser:
-                    return Response({'errors': 'Only students can be enrolled in the course'})
+                    return Response({'errors': 'Only students can be enrolled in the course.'})
                 course.users.add(user)
             
             course.save()
