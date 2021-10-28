@@ -43,18 +43,18 @@ test_facilitator_or_instructor_can_create_an_activity (test_api.TestActivityView
 test_facilitator_or_instructor_can_edit_a_submission_grade (test_api.TestActivityView) ... ok
 test_facilitator_or_instructor_can_list_activities (test_api.TestActivityView) ... ok
 test_facilitator_or_instructor_can_update_an_activity (test_api.TestActivityView) ... ERROR
-test_facilitator_or_instructor_can_view_all_submissions (test_api.TestActivityView) ... FAIL
+test_facilitator_or_instructor_can_view_all_submissions (test_api.TestActivityView) ... ok
 test_facilitator_or_instructor_cannot_submity_an_activity (test_api.TestActivityView) ... ok
 test_if_it_is_not_possible_to_create_activities_with_the_same_title (test_api.TestActivityView) ... ok
 test_if_it_is_not_possible_to_update_activity_to_an_existing_title (test_api.TestActivityView) ... ERROR
-test_if_it_is_not_possible_to_update_activity_with_an_existing_submission (test_api.TestActivityView) ... FAIL
-test_student_can_submit_an_activity (test_api.TestActivityView) ... FAIL
-test_student_can_view_only_your_submissions (test_api.TestActivityView) ... FAIL
+test_if_it_is_not_possible_to_update_activity_with_an_existing_submission (test_api.TestActivityView) ... ok
+test_student_can_submit_an_activity (test_api.TestActivityView) ... ok
+test_student_can_view_only_your_submissions (test_api.TestActivityView) ... ok
 test_student_cannot_edit_a_submission_grade (test_api.TestActivityView) ... ok
 test_student_cannot_list_activities (test_api.TestActivityView) ... ok
 test_students_cannot_create_activities (test_api.TestActivityView) ... ok
 test_anonymous_can_filter_courses (test_api.TestCourseView) ... ok
-test_anonymous_can_list_courses (test_api.TestCourseView) ... FAIL
+test_anonymous_can_list_courses (test_api.TestCourseView) ... ok
 test_anonymous_cannot_filter_invalid_course (test_api.TestCourseView) ... ok
 test_cannot_create_courses_with_the_same_name (test_api.TestCourseView) ... ok
 test_cannot_update_course_to_an_existing_name (test_api.TestCourseView) ... ok
@@ -84,95 +84,14 @@ ValueError: Content-Type header is "text/html; charset=utf-8", not "application/
 ERROR: test_if_it_is_not_possible_to_update_activity_to_an_existing_title (test_api.TestActivityView)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 904, in test_if_it_is_not_possible_to_update_activity_to_an_existing_title
+  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 910, in test_if_it_is_not_possible_to_update_activity_to_an_existing_title
     self.assertDictEqual(activity.json(), { 'error': 'Activity with this name already exists'})
   File "/home/paulo/projects/q4/1-sprint/kanvas/venv/lib/python3.9/site-packages/django/test/client.py", line 662, in _parse_json
     raise ValueError(
 ValueError: Content-Type header is "text/html; charset=utf-8", not "application/json"
 
-======================================================================
-FAIL: test_facilitator_or_instructor_can_view_all_submissions (test_api.TestActivityView)
 ----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 1335, in test_facilitator_or_instructor_can_view_all_submissions
-    self.assertListEqual(submissions.json(), [{"id": 1, "grade": None, "repo": "http://gitlab.com/submission1", "user_id": 2, "activity_id": 1},
-AssertionError: Lists differ: [{'id': 1, 'grade': 10, 'repo': 'http://gitlab.com/submission[419 chars]: 3}] != [{'id': 1, 'grade': None, 'repo': 'http://gitlab.com/submissi[429 chars]: 3}]
+Ran 35 tests in 5.822s
 
-First differing element 0:
-{'id': 1, 'grade': 10, 'repo': 'http://gitlab.com/submission[30 chars]': 1}
-{'id': 1, 'grade': None, 'repo': 'http://gitlab.com/submissi[32 chars]': 1}
-
-Diff is 855 characters long. Set self.maxDiff to None to see it.
-
-======================================================================
-FAIL: test_if_it_is_not_possible_to_update_activity_with_an_existing_submission (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 948, in test_if_it_is_not_possible_to_update_activity_with_an_existing_submission
-    self.assertEqual(activity.status_code, 400)
-AssertionError: 301 != 400
-
-======================================================================
-FAIL: test_student_can_submit_an_activity (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 1056, in test_student_can_submit_an_activity
-    self.assertDictEqual(submission.json(), {"id": 1, "grade": None, "repo": "http://gitlab.com/submission1", "user_id": 2, "activity_id": 1})
-AssertionError: {'id': 1, 'grade': 10, 'repo': 'http://gitlab.com/submission[30 chars]': 1} != {'id': 1, 'grade': None, 'repo': 'http://gitlab.com/submissi[32 chars]': 1}
-  {'activity_id': 1,
--  'grade': 10,
-?           ^^
-
-+  'grade': None,
-?           ^^^^
-
-   'id': 1,
-   'repo': 'http://gitlab.com/submission1',
-   'user_id': 2}
-
-======================================================================
-FAIL: test_student_can_view_only_your_submissions (test_api.TestActivityView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 1264, in test_student_can_view_only_your_submissions
-    self.assertListEqual(submissions.json(), [{"id": 1, "grade": None, "repo": "http://gitlab.com/submission1", "user_id": 2, "activity_id": 1},
-AssertionError: Lists differ: [{'id': 1, 'grade': 10, 'repo': 'http://gitlab.com/submission[128 chars]: 2}] != [{'id': 1, 'grade': None, 'repo': 'http://gitlab.com/submissi[132 chars]: 2}]
-
-First differing element 0:
-{'id': 1, 'grade': 10, 'repo': 'http://gitlab.com/submission[30 chars]': 1}
-{'id': 1, 'grade': None, 'repo': 'http://gitlab.com/submissi[32 chars]': 1}
-
-  [{'activity_id': 1,
--   'grade': 10,
-?            ^^
-
-+   'grade': None,
-?            ^^^^
-
-    'id': 1,
-    'repo': 'http://gitlab.com/submission1',
-    'user_id': 2},
-   {'activity_id': 2,
--   'grade': 10,
-?            ^^
-
-+   'grade': None,
-?            ^^^^
-
-    'id': 2,
-    'repo': 'http://gitlab.com/submission2',
-    'user_id': 2}]
-
-======================================================================
-FAIL: test_anonymous_can_list_courses (test_api.TestCourseView)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/paulo/projects/q4/1-sprint/kanvas/test_api.py", line 362, in test_anonymous_can_list_courses
-    self.assertEqual(course_list.status_code, 200)
-AssertionError: 201 != 200
-
-----------------------------------------------------------------------
-Ran 35 tests in 5.548s
-
-FAILED (failures=5, errors=2)
+FAILED (errors=2)
 Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

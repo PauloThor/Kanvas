@@ -32,7 +32,7 @@ class CourseView(APIView):
     def get(self, request):
         courses = Course.objects.all()
         serializer = CourseSerializer(courses, many=True) 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CourseViewById(APIView):

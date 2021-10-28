@@ -60,6 +60,9 @@ class ActivityViewById(APIView):
             activity = Activity.objects.get(id=activity_id)
             title = request.data['title']
             points = request.data['points']
+            
+            if activity.submission_set.first():
+                return Response({'error': 'You can not change an Activity with submissions'}, status=status.HTTP_400_BAD_REQUEST)
 
             activity.title = title
             activity.points = points
@@ -105,13 +108,8 @@ class Registration(APIView):
             if user.is_staff or user.is_superuser:
                     return Response({'errors': 'Only students can apply submissions'}, status=status.HTTP_403_FORBIDDEN)
             repo = request.data['repo']
-            grade = request.data['grade'] if 'grade' in request.data else None
-            # grade = request.data['grade']
-
-            submission = Submission.objects.filter(user_id=user.id, activity_id=activity.id).exists()
-            if submission:
-                return Response({'errors': 'You can not change an Activity with submissions'}, status=status.HTTP_400_BAD_REQUEST)
-            submission = Submission.objects.create(user_id=user.id, activity_id=activity.id, repo=repo, grade=grade)
+            
+            submission = Submission.objects.create(user_id=user.id, activity_id=activity.id, repo=repo, grade=None)
             
             serializer = SubmissionSerializer(submission)
 

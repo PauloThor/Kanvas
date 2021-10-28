@@ -942,7 +942,7 @@ class TestActivityView(TestCase):
         
         # Tenta fazer uma alteração da atividade
         activity = self.client.put(
-            "/api/activities/1", self.update_activity_data2, format="json"
+            "/api/activities/1/", self.update_activity_data2, format="json"
         )
         
         self.assertEqual(activity.status_code, 400)
